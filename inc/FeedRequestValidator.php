@@ -27,7 +27,6 @@ class FeedRequestValidator implements RequestValidator {
 	public function validate() {
 
 		$slug = $this->settings->get( 'url_slug' );
-
 		if ( ! $slug ) {
 			return false;
 		}

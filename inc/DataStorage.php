@@ -9,10 +9,13 @@ namespace Inpsyde\MultisiteFeed;
  *
  * @package Inpsyde\MultisiteFeed
  */
-interface DataStorage {
+interface DataStorage
+{
 
-	public function get( $key, $default = null );
+	public function get($key, $default = null);
 
-	public function set( $key, $value );
+	public function merge(array $values);
+
+	public function set($key, $value);
 
 }
