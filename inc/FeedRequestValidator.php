@@ -27,26 +27,12 @@ class FeedRequestValidator implements RequestValidator
 	 */
 	public function validate()
 	{
-
 		$slug = $this->settings->get(OptionsKeys::URL_SLUG, OptionDefaults::URL_SLUG);
-
-		$request_uri = filter_input(INPUT_SERVER, 'REQUEST_URI');
-		if (!$request_uri) {
-			return false;
+		$postId = get_the_ID();
+		if ($postId > 0) {
+			$multifeedValue = get_post_meta($postId, 'multifeed', true);
+			return $multifeedValue == $slug;
 		}
-
-		$parsed_url = parse_url($request_uri);
-		if (!$parsed_url) {
-			return false;
-		}
-
-		$request_uri = trim($parsed_url['path'], '/');
-		$parts = explode('/', $request_uri);
-
-		if (!$parts) {
-			return false;
-		}
-
-		return (end($parts) === $slug);
+		return false;
 	}
 }
