@@ -61,7 +61,6 @@ class FeedGenerator
 
 		$cache_key = $this->get_cache_key();
 		$out = false;
-
 //		// Deactivate Caching for Debugging
 		if ($cache_enabled = $this->is_cache_enabled()) {
 			$out = $this->cache->get($cache_key);

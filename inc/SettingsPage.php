@@ -113,7 +113,7 @@ class SettingsPage
                        <td>
                            <input class="regular-text" type="text" value="<?php echo esc_attr(
 										$this->settings->get(
-											OptionsKeys::TITLE, ''
+											OptionsKeys::TITLE, OptionDefaults::TITLE
 										)
 									); ?>" name="<?php echo self::OPTION_KEY; ?>[<?php echo OptionsKeys::TITLE ?>]"
                                   id="inpsmf_<?php echo OptionsKeys::TITLE; ?>">
@@ -130,7 +130,7 @@ class SettingsPage
                                       cols="40"
                                       rows="7"><?php echo esc_attr(
 											 $this->settings->get(
-												 OptionsKeys::DESCRIPTION, ''
+												 OptionsKeys::DESCRIPTION, OptionDefaults::DESCRIPTION
 											 )
 										 ); ?></textarea>
                        </td>
@@ -143,7 +143,7 @@ class SettingsPage
                        <td>
                            <input class="regular-text" type="text" value="<?php echo esc_attr(
 										$this->settings->get(
-											OptionsKeys::URL_SLUG, 'multifeed'
+											OptionsKeys::URL_SLUG, OptionDefaults::URL_SLUG
 										)
 									); ?>" name="<?php echo self::OPTION_KEY ?>[<?php echo OptionsKeys::URL_SLUG ?>]"
                                   id="inpsmf_<?php echo OptionsKeys::URL_SLUG ?>">
