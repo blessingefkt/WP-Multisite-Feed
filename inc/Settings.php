@@ -35,7 +35,7 @@ class Settings implements DataStorage {
 	/**
 	 * @return array
 	 */
-	public function getOptions()
+	protected function getOptions()
 	{
 		return get_network_option($this->getNetworkId(), self::OPTION_KEY) ?: [];
 	}
@@ -43,7 +43,7 @@ class Settings implements DataStorage {
 	/**
 	 * @return int
 	 */
-	public function getNetworkId()
+	protected function getNetworkId()
 	{
 		return get_current_network_id();
 	}
