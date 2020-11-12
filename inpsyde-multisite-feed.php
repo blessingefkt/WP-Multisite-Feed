@@ -3,10 +3,10 @@
  * Plugin Name: Inpsyde Multisite Feed
  * Plugin URI:  http://wordpress.org/extend/plugins/wp-multisite-feed/
  * Description: Consolidates all network feeds into one.
- * Version:     1.1.0
+ * Version:     1.1.1
  * Author:      Inpsyde GmbH
  * Author URI:  https://inpsyde.com/
- * License:     GPLv3+
+ * License:     GPLv2+
  * Text Domain: wp-multisite-feed
  * Domain Path: /languages
  * Network:     true

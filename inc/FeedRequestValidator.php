@@ -2,8 +2,7 @@
 
 namespace Inpsyde\MultisiteFeed;
 
-class FeedRequestValidator implements RequestValidator
-{
+class FeedRequestValidator implements RequestValidator {
 
 	/**
 	 * @var DataStorage
@@ -15,8 +14,8 @@ class FeedRequestValidator implements RequestValidator
 	 *
 	 * @param DataStorage $settings
 	 */
-	public function __construct(DataStorage $settings)
-	{
+	public function __construct( DataStorage $settings ) {
+
 		$this->settings = $settings;
 	}
 
@@ -25,14 +24,31 @@ class FeedRequestValidator implements RequestValidator
 	 *
 	 * @return bool
 	 */
-	public function validate()
-	{
-		$slug = $this->settings->get(OptionsKeys::URL_SLUG, OptionDefaults::URL_SLUG);
-		$postId = get_the_ID();
-		if ($postId > 0) {
-			$multifeedValue = get_post_meta($postId, 'multifeed', true);
-			return $multifeedValue == $slug;
+	public function validate() {
+
+		$slug = $this->settings->get( 'url_slug' );
+
+		if ( ! $slug ) {
+			return false;
 		}
-		return false;
+
+		$request_uri = filter_input( INPUT_SERVER, 'REQUEST_URI' );
+		if ( ! $request_uri ) {
+			return false;
+		}
+
+		$parsed_url = parse_url( $request_uri );
+		if ( ! $parsed_url['path'] ) {
+			return false;
+		}
+
+		$request_uri = trim( $parsed_url['path'], '/' );
+		$parts       = explode( '/', $request_uri );
+
+		if ( ! $parts ) {
+			return false;
+		}
+
+		return ( end( $parts ) === $slug );
 	}
 }

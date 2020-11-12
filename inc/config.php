@@ -10,15 +10,15 @@ return [
 	Plugin::class => function () {
 
 		return [
-			DI::instance(Settings::class),
-			DI::instance(FeedRequestValidator::class),
-			DI::instance(SiteTransientCache::class),
+			DI::instance( Settings::class ),
+			DI::instance( FeedRequestValidator::class ),
+			DI::instance( SiteTransientCache::class ),
 		];
 	},
 
 	FeedRequestValidator::class => function () {
 
-		return [DI::instance(Settings::class)];
+		return [ DI::instance( Settings::class ) ];
 	},
 
 	SiteTransientCache::class => function () {
@@ -26,18 +26,18 @@ return [
 		/**
 		 * @var Settings $settings
 		 */
-		$settings = DI::instance(Settings::class);
+		$settings = DI::instance( Settings::class );
 
-		return ['inpsyde_multisite_feed_cache', $settings->get(OptionsKeys::CACHE_EXPIRY)];
+		return [ 'inpsyde_multisite_feed_cache', $settings->get( OptionsKeys::CACHE_EXPIRY ) ];
 	},
 
 	FeedGenerator::class => function () {
 
 		return [
-			DI::instance(Settings::class),
-			DI::instance(NetworkFeedItemProvider::class),
-			DI::instance(FeedRenderer::class),
-			DI::instance(SiteTransientCache::class),
+			DI::instance( Settings::class ),
+			DI::instance( NetworkFeedItemProvider::class ),
+			DI::instance( FeedRenderer::class ),
+			DI::instance( SiteTransientCache::class ),
 		];
 	},
 
@@ -45,7 +45,7 @@ return [
 
 		return [
 			$GLOBALS['wpdb'],
-			DI::instance(Settings::class),
+			DI::instance( Settings::class ),
 			$_GET,
 		];
 	},
@@ -53,32 +53,24 @@ return [
 	FeedRenderer::class => function () {
 
 		return [
-			DI::instance(Settings::class),
+			DI::instance( Settings::class ),
 		];
 	},
 
 	SettingsPage::class => function () {
 
 		return [
-			DI::instance(Settings::class),
+			DI::instance( Settings::class ),
 		];
 	},
 ];
-
-interface OptionDefaults
-{
-	const URL_SLUG = 'multifeed';
-	const DESCRIPTION = '';
-	const TITLE = '';
-}
 
 /**
  * Option keys used by the settings object.
  *
  * @package Inpsyde\MultisiteFeed
  */
-interface OptionsKeys
-{
+interface OptionsKeys {
 
 	const CACHE_EXPIRY = 'cache_expiry_minutes';
 	const TITLE = 'title';
@@ -100,8 +92,7 @@ interface OptionsKeys
  *
  * @package Inpsyde\MultisiteFeed
  */
-interface Hooks
-{
+interface Hooks {
 
 	const FILTER_SITE_QUERY_ARGS = 'inpsyde.multisite_feed.site_query_args';
 	const ACTION_MULTIFEED_REQUEST = 'inpsyde.multisite_feed.valid_request';

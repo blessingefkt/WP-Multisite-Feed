@@ -9,8 +9,7 @@ use Inpsyde\MultisiteFeed\Cache\CacheHandler;
  *
  * @package Inpsyde\MultisiteFeed
  */
-class FeedGenerator
-{
+class FeedGenerator {
 
 	/**
 	 * @var CacheHandler
@@ -42,13 +41,12 @@ class FeedGenerator
 		FeedItemProvider $item_provider,
 		Renderer $renderer,
 		CacheHandler $cache
-	)
-	{
+	) {
 
-		$this->settings = $settings;
+		$this->settings      = $settings;
 		$this->item_provider = $item_provider;
-		$this->cache = $cache;
-		$this->renderer = $renderer;
+		$this->cache         = $cache;
+		$this->renderer      = $renderer;
 	}
 
 	/**
@@ -56,47 +54,45 @@ class FeedGenerator
 	 *
 	 * @return void
 	 */
-	public function display_feed()
-	{
+	public function display_feed() {
 
 		$cache_key = $this->get_cache_key();
-		$out = false;
-//		// Deactivate Caching for Debugging
-		if ($cache_enabled = $this->is_cache_enabled()) {
-			$out = $this->cache->get($cache_key);
+		$out       = false;
+
+		// Deactivate Caching for Debugging
+		if ( $cache_enabled = $this->is_cache_enabled() ) {
+			$out = $this->cache->get( $cache_key );
 		}
 
-		if (!$out) {
+		if ( ! $out ) {
 			$feed_items = $this->item_provider->get_items();
-			$out = $this->renderer->render($feed_items);
+			$out        = $this->renderer->render( $feed_items );
 
-			if ($cache_enabled) {
-				$this->cache->set($cache_key, $out);
+			if ( $cache_enabled ) {
+				$this->cache->set( $cache_key, $out );
 
 			}
 		}
-		
-		header('Content-Type: ' . feed_content_type('rss-http') . '; charset=' . get_option('blog_charset'));
+
+		header( 'Content-Type: ' . feed_content_type( 'rss-http' ) . '; charset=' . get_option( 'blog_charset' ) );
 		echo $out;
 	}
 
-	private function get_cache_key()
-	{
+	private function get_cache_key() {
 
-		return 'feed_' . md5(serialize($_REQUEST));
+		return 'feed_' . md5( serialize( $_REQUEST ) );
 	}
 
-	private function is_cache_enabled()
-	{
+	private function is_cache_enabled() {
 
-		$wp_debug = (defined('WP_DEBUG') && WP_DEBUG);
-		if ($wp_debug) {
+		$wp_debug = ( defined( 'WP_DEBUG' ) && WP_DEBUG );
+		if ( $wp_debug ) {
 			return false;
 		}
 
-		$cache_expiry = (int)$this->settings->get(OptionsKeys::CACHE_EXPIRY);
+		$cache_expiry = (int) $this->settings->get( OptionsKeys::CACHE_EXPIRY );
 
-		return !($cache_expiry === 0);
+		return ! ( $cache_expiry === 0 );
 	}
 
 }
