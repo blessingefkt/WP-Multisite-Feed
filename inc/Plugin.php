@@ -90,16 +90,13 @@ class Plugin {
 		}
 
 		// hijack feed into WordPress
-		add_action( 'init', function () {
-
+		add_action('template_redirect', function () {
 			if ( $this->request->validate() ) {
 				do_action( Hooks::ACTION_MULTIFEED_REQUEST );
-				DI::instance( FeedGenerator::class )
-				  ->display_feed();
+				DI::instance( FeedGenerator::class )->display_feed();
 				exit;
 			}
-		}
-		);
+		});
 	}
 
 	/**

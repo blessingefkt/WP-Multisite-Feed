@@ -15,4 +15,6 @@ interface DataStorage {
 
 	public function set( $key, $value );
 
+	public function merge( array $values );
+
 }
