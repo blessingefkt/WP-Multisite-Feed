@@ -38,14 +38,14 @@ class FeedRequestValidator implements RequestValidator {
 		}
 
 		$parsed_url = parse_url( $request_uri );
-		if ( ! $parsed_url['path'] ) {
+		if ( ! $parsed_url || ! $parsed_url['path'] ) {
 			return false;
 		}
 
 		$request_uri = trim( $parsed_url['path'], '/' );
 		$parts       = explode( '/', $request_uri );
 
-		if ( ! $parts ) {
+		if ( empty( $parts ) ) {
 			return false;
 		}
 
