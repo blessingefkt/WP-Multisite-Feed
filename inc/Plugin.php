@@ -4,8 +4,7 @@ namespace Inpsyde\MultisiteFeed;
 
 use Inpsyde\MultisiteFeed\Cache\CacheHandler;
 
-class Plugin
-{
+class Plugin {
 
 	/**
 	 * @var DataStorage
@@ -31,12 +30,11 @@ class Plugin
 		DataStorage $settings,
 		RequestValidator $request,
 		CacheHandler $cache
-	)
-	{
+	) {
 
 		$this->settings = $settings;
-		$this->request = $request;
-		$this->cache = $cache;
+		$this->request  = $request;
+		$this->cache    = $cache;
 	}
 
 	/**
@@ -47,31 +45,29 @@ class Plugin
 	 * @return string
 	 * @throws Exception\DIException
 	 */
-	public static function get_feed_url(array $args = [])
-	{
+	public static function get_feed_url( array $args = [] ) {
 
-		$slug = DI::instance(Settings::class)->get(OptionsKeys::URL_SLUG);
-		$url = home_url($slug);
-		$url = add_query_arg($args, $url);
+		$slug = DI::instance( Settings::class )->get( OptionsKeys::URL_SLUG );
+		$url  = home_url( $slug );
+		$url  = add_query_arg( $args, $url );
 
-		return apply_filters('inpsmf_feed_url', $url);
+		return apply_filters( 'inpsmf_feed_url', $url );
 	}
 
 	/**
 	 * Setup WordPress hooks and initialize plugin
 	 * @throws Exception\DIException
 	 */
-	public function init()
-	{
+	public function init() {
 
-		if (is_admin()) {
-			if (is_network_admin()) {
-				DI::instance(SettingsPage::class)->init();
+		if ( is_admin() ) {
+			if ( is_network_admin() ) {
+				DI::instance( SettingsPage::class )->init();
 				// Load translation file
-				add_action('load-settings_page_inpsyde-multisite-feed-page', [$this, 'localize_plugin']);
+				add_action( 'load-settings_page_inpsyde-multisite-feed-page', [ $this, 'localize_plugin' ] );
 			}
 			// invalidate cache when necessary
-			add_action('admin_init', function () {
+			add_action( 'admin_init', function () {
 
 				$actions = [
 					'publish_post',
@@ -82,12 +78,12 @@ class Plugin
 					'inpsmf_update_settings',
 				];
 
-				foreach ($actions as $action) {
-					add_action($action, function () {
+				foreach ( $actions as $action ) {
+                    add_action($action, function () {
 
-						$this->settings->set('last_modified', current_time('mysql'));
-						$this->cache->flush();
-					});
+                        $this->settings->set('last_modified', current_time('mysql'));
+                        $this->cache->flush();
+                    });
 				}
 			}
 			);
@@ -95,28 +91,27 @@ class Plugin
 
 		// hijack feed into WordPress
 		add_action('template_redirect', function () {
-			if ($this->request->validate()) {
-				do_action(Hooks::ACTION_MULTIFEED_REQUEST);
-				DI::instance(FeedGenerator::class)->display_feed();
+			if ( $this->request->validate() ) {
+				do_action( Hooks::ACTION_MULTIFEED_REQUEST );
+				DI::instance( FeedGenerator::class )
+					->display_feed();
 				exit;
 			}
-		}
-		);
+		});
 	}
 
 	/**
 	 * Load plugin translation
 	 *
-	 * @return  void
 	 * @since   06/06/2013
+	 * @return  void
 	 */
-	public function localize_plugin()
-	{
+	public function localize_plugin() {
 
 		load_plugin_textdomain(
 			'wp-multisite-feed',
 			false,
-			str_replace('inc', '', dirname(plugin_basename(__FILE__))) . 'languages'
+			str_replace( 'inc', '', dirname( plugin_basename( __FILE__ ) ) ) . 'languages'
 		);
 	}
 
