@@ -32,7 +32,7 @@ class FeedRequestValidator implements RequestValidator {
 			return false;
 		}
 
-		$request_uri = filter_input( INPUT_SERVER, 'REQUEST_URI' );
+		$request_uri = filter_var( $_SERVER['REQUEST_URI'] ?? '', FILTER_SANITIZE_STRING );
 		if ( ! $request_uri ) {
 			return false;
 		}
