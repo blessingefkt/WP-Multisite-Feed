@@ -90,7 +90,7 @@ class Plugin {
 		}
 
 		// hijack feed into WordPress
-		add_action('template_redirect', function () {
+		add_action('init', function () {
 			if ( $this->request->validate() ) {
 				do_action( Hooks::ACTION_MULTIFEED_REQUEST );
 				DI::instance( FeedGenerator::class )
